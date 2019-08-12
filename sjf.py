@@ -55,8 +55,7 @@ for _ in range(len(process_list)):
         wt.append(0)
         # current_time += (next_process[1]+next_process[2])
         current_time = (next_process[1]+next_process[2])
-
-    print(current_time)
+        
     sjf.append(next_process)
 
     # waiting_time = sum(wt[i])-next_process[1]
