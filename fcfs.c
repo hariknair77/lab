@@ -1,11 +1,13 @@
 # include <stdio.h>
 # include <stdlib.h>
+# include <time.h>
 
 typedef struct {
     int pno,at,bt,wt,tt;
 }process;
 
 int randint(int lower,int upper){
+    srand(time(NULL));
     return rand()%(upper-lower+1)+lower;
 }
 
@@ -48,6 +50,7 @@ void calc_wt(process p[],int n){
     printf("\nAverage waiting time = %f",twt/n);
     printf("\nAverage Turn around time time = %f\n",ttt/n);
 }
+
 int main(){
     int n,i;
     n = randint(1,10);
@@ -58,15 +61,10 @@ int main(){
         p[i].bt  = randint(0,30);
         p[i].wt  = 0;
         p[i].tt  = 0;
-
     }    
     disp(p,n);
     sort(p,n);    
     calc_wt(p,n);
     disp(p,n);
-
-
-
-    
     return 0;
 }
