@@ -1,26 +1,18 @@
 # include <stdio.h>
 # include <stdlib.h>
-# include <time.h>
 
 typedef struct {
     int pno,at,bt,wt,tt;
 }process;
 
 int randint(int lower,int upper){
-    srand(time(NULL));
     return rand()%(upper-lower+1)+lower;
 }
 
-void sort(process a[],int n){
-    int i,j;
-    process temp;
-    for ( i = 0; i < n-1; i++)
-        for( j = 0; j < n-1-i; j++)
-            if ( a[j].at > a[j+1].at){
-                temp = a[j];
-                a[j] = a[j+1];
-                a[j+1] = temp;
-            }   
+int compare(const void *p,const void *q){
+    int a = ((process *)p)->at;
+    int b = ((process *)q)->at;
+    return a-b;
 }
 
 void disp(process p[],int n){
@@ -57,13 +49,13 @@ int main(){
     process *p = malloc(n*sizeof(process));
     for(i=0;i<n;i++){
         p[i].pno = i+1;
-        p[i].at  = randint(0,30);
-        p[i].bt  = randint(0,30);
+        p[i].at  = randint(0,25);
+        p[i].bt  = randint(0,25);
         p[i].wt  = 0;
         p[i].tt  = 0;
     }    
     disp(p,n);
-    sort(p,n);    
+    qsort(p,n,sizeof(process),compare);  
     calc_wt(p,n);
     disp(p,n);
     return 0;
