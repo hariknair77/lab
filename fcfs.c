@@ -1,5 +1,6 @@
 # include <stdio.h>
 # include <stdlib.h>
+# include <time.h>
 
 typedef struct {
     int pno,at,bt,wt,tt;
@@ -45,6 +46,7 @@ void calc_wt(process p[],int n){
 
 int main(){
     int n,i;
+    srand(time(NULL));
     n = randint(1,10);
     process *p = malloc(n*sizeof(process));
     for(i=0;i<n;i++){
