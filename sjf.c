@@ -11,7 +11,7 @@ int randint(int lower,int upper){
 }
 void disp(process p[],int n){
     int i;
-    printf("Pno\tAriaval\tBurst\tWait\tTurn Around\tflag");
+    printf("Pno\tarrival\tBurst\tWait\tTurn Around\tflag");
     for(i=0;i<n;i++)
         printf("\n%d\t%d\t%d\t%d\t%d\t\t%d\n",p[i].pno,p[i].at,p[i].bt,p[i].wt,p[i].tt,p[i].flag);
 }
@@ -23,7 +23,7 @@ void calc_wt(process p[],int n){
     ttt = p[0].bt;
     p[0].flag = 1; //First Process Complete
     finish_count = 1;
-    // printf("\npno = %d ct = %d arival = %d waiting = %d ",p[0].pno,ct,p[0].at,p[0].wt);
+    printf("\npno = %d ct = %d arrival = %d waiting = %d ",p[0].pno,ct,p[0].at,p[0].wt);
     while(finish_count < n){
         at_flag = 0;
         minbt = 99999;
@@ -50,7 +50,7 @@ void calc_wt(process p[],int n){
     }
     else
         ct = p[next_process].at + p[next_process].bt;
-    // printf("\npno = %d ct = %d arival = %d waiting = %d ",p[next_process].pno,ct,p[next_process].at,p[next_process].wt);
+    printf("\npno = %d ct = %d arrival = %d waiting = %d ",p[next_process].pno,ct,p[next_process].at,p[next_process].wt);
     p[next_process].flag = 1;
     finish_count++;
     p[next_process].tt = p[next_process].wt + p[next_process].bt;    
