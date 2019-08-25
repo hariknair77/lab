@@ -30,11 +30,9 @@ void calc_wt(process p[],int n,int q){
                 if(p[i].rt > q){
                     t += q;
                     p[i].rt -= q;
-                    // printf("\nhey");
                     
-                    // temp++;
-                    printf("Pno :  waiting time = ");
-                    fflush(stdout);
+                    
+                    // printf("\nwaiting         time");
 
                 }
                 else{ 
