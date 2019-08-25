@@ -16,18 +16,24 @@ void disp(process p[],int n,int nr,int seq[],int np){
     if(n != np)
         for(i=0;i<np;i++)
             seq[i] = i+1;
-    printf("Pno\tAlloacted\tMax\t\tNeed\t\tAvailable");
+    printf("\nPno\tAlloacted\tMax\t\tNeed\t\tAvailable");
     for(i=0;i<np;i++){
         printf("\n%d\t",p[seq[i]-1].pno);
         for(j=0;j<nr;j++)
             printf("%d ",p[seq[i]-1].allocated[j]);
-        printf("\t");    
+        printf("    \t");    
         for(j=0;j<nr;j++)
             printf("%d ",p[seq[i]-1].max[j]);
-        printf("\t");    
+        if(nr>3)
+            printf("\t");    
+        else
+            printf("\t\t");    
         for(j=0;j<nr;j++)
             printf("%d ",p[seq[i]-1].need[j]);
-        printf("\t");    
+        if(nr>3)
+            printf("\t");    
+        else
+            printf("\t\t");    
         for(j=0;j<nr;j++)
             printf("%d ",p[seq[i]-1].avail[j]);
         printf("\t");  
@@ -124,7 +130,7 @@ void req(process p[],int avail[],int np,int nr){
         
     // safe(p,avail,np,nr);
     if(safe(p,avail,np,nr)){
-        printf("\nAddtional resorse request(y/n)?:");
+        printf("\nAddtional resource request(y/n)?:");
         getchar();
         scanf("%c",&ch);
         (ch == 'y')?req(p,avail,np,nr):printf("\nBye\n");
@@ -136,14 +142,28 @@ int main(){
     int np,nr,i,j,temp;
     char ch;
     srand(time(NULL));
-    np = randint(1,10);
-    nr = randint(4,5);
+
+    printf("\nRandom mode(y/n)? : ");
+    scanf("%c",&ch);
+    if(ch != 'y'){
+        printf("\nEnter number of processes : ");
+        scanf("%d",&np);
+        printf("\nEnter number of resources : ");
+        scanf("%d",&nr);
+        printf("\nEnter available resources : ");
+    }
+    else{
+        np = randint(1,10);
+        nr = randint(4,5);
+    }   
     int work[nr],available[nr];
     process p[np];
-    // available = (int *)malloc(nr*sizeof(int));
-    // process *p = (process *)malloc(np*sizeof(process));
+
     for(i=0;i<nr;i++){
-        available[i] = randint(1,10);
+        if(ch != 'y')
+            scanf("%d",&available[i]);
+        else
+            available[i] = randint(1,10);
         work[i] = available[i];
     }
     for(i=0;i<np;i++){
@@ -153,17 +173,30 @@ int main(){
         p[i].max = (int *)malloc(nr*sizeof(int));
         p[i].need = (int *)malloc(nr*sizeof(int));
         p[i].avail = (int *)malloc(nr*sizeof(int));
-        for(j=0;j<nr;j++){
-            p[i].allocated[j] = randint(1,10);
-            temp = randint(1,5);
-            p[i].max[j] = (p[i].allocated[j] + temp);
-            p[i].need[j] = temp;
-            p[i].avail[j] = available[j];
+        if(ch == 'y')
+            for(j=0;j<nr;j++){
+                p[i].allocated[j] = randint(1,10);
+                temp = randint(1,5);
+                p[i].max[j] = (p[i].allocated[j] + temp);
+                p[i].need[j] = temp;
+                p[i].avail[j] = available[j];
         }
-    }   
+        else{
+            printf("\nEnter allocation for process %d : ",i+1);
+            for(j=0;j<nr;j++)
+                scanf("%d",&p[i].allocated[j]);
+            printf("\nEnter max for process %d : ",i+1);
+            for(j=0;j<nr;j++){
+                scanf("%d",&p[i].max[j]);                
+                p[i].need[j] = p[i].max[j] - p[i].allocated[j];
+                p[i].avail[j] = available[j];
+            }        
+        }
+    }
+
     if(safe(p,available,np,nr)){
-        printf("\nAddtional resorse request(y/n)?:");
-        // getchar();
+        printf("\nAddtional resource request(y/n)?:");
+        getchar();
         scanf("%c",&ch);
         (ch == 'y')?req(p,work,np,nr):printf("\nBye\n");
     }

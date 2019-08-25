@@ -18,7 +18,7 @@ void disp(process p[],int n){
 }
 
 void calc_wt(process p[],int n,int q){
-    int i,t=0,flag;
+    int i,t=0,flag,temp=0;
     float ttt,twt;
     ttt = 0;
     twt = 0;
@@ -30,20 +30,29 @@ void calc_wt(process p[],int n,int q){
                 if(p[i].rt > q){
                     t += q;
                     p[i].rt -= q;
+                    // printf("\nhey");
+                    
+                    // temp++;
+                    printf("Pno :  waiting time = ");
+                    fflush(stdout);
+
                 }
                 else{ 
+                    temp++;
                     t += p[i].rt;
                     p[i].tt = t;
                     p[i].wt = t-p[i].bt;
                     p[i].rt = 0;
                     twt += p[i].wt;
                     ttt += p[i].tt;
+                    // printf("\nPno : %d waiting time = %d",1,1);
                 }
             }
         }
         if(flag==0)
         break;
     }
+    printf("\nCount = %d",temp);
     printf("\nAverage waiting time = %f",twt/n);
     printf("\nAverage Turn around time time = %f\n",ttt/n);  
 }
@@ -51,12 +60,15 @@ void calc_wt(process p[],int n,int q){
 int main(){
     int n,i,q;
     srand(time(NULL));
-    n = randint(1,10);
-    q = randint(1,10);
+    // n = randint(1,10);
+    n = 5;
+    // q = randint(5,10);
+    q = 5;
     process *p = malloc(n*sizeof(process));
     for(i=0;i<n;i++){
         p[i].pno = i+1;
-        p[i].bt  = randint(0,25);
+        // p[i].bt  = randint(0,25);
+        p[i].bt = 6;
         p[i].wt  = 0;
         p[i].tt  = 0;
         p[i].rt  = p[i].bt;
