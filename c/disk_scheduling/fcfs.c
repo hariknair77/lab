@@ -51,7 +51,9 @@ int main(){
         }
     }      
     dist = abs(cp - disk[0]);
-    printf("\n******************************************************\n\t\t\tFCFS\n******************************************************");    
+    printf("\n******************************************************\n");
+    printf("\t\t\tFCFS\n");
+    printf("******************************************************\n");
     printf("\nStart : %d \nend : %d",start,end);  
     printf("\nCurrent postion : %d",cp);
     printf("\nIO request sequence : ");

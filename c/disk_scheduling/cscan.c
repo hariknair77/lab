@@ -19,7 +19,9 @@ int comapre(const void *a,const void *b){
 
 void cscan(int disk[],int n,int cp,int start,int end){
     int i,j,dist,found = 0;
-    printf("\n******************************************************\n\t\t\tC-SCAN\n******************************************************");
+    printf("\n******************************************************\n");
+    printf("\t\t\tC-SCAN\n");
+    printf("******************************************************\n");
     dist = 0;
     mode = 1;
     qsort((void *)disk,n,sizeof(int),comapre);
