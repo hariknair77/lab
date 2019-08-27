@@ -5,27 +5,43 @@
 int randint(int lower,int upper){
     return rand()%(upper-lower+1)+lower;
 }
+int cp;
 int mode;
 int comapre(const void *a,const void *b){
     int p = *(const int*)a;
     int q = *(const int*)b;   
-    if(mode == 1)
-        return p-q;
-    else
-        return q-p;
+    if(mode == 1){
+        if(p > cp && q > cp)
+            return p-q;
+        else
+            return q-p;
+    }
+    else{
+        if(p < cp && q < cp)
+            return q-p;
+        else
+            return p-q;
+    }
+
 }
 
 int main(){
-    printf("\nMode : ");
+    printf("\nMode :");
     scanf("%d",&mode);
-    int a[10];
-    for(int i=0;i<10;i++)
-        a[i] = randint(1,20);
-    for(int i=0;i<10;i++)
-        printf("%4d",a[i]);     
+    cp = 50;
+    int a[] = {176, 79, 34, 60, 92, 11, 41, 114};
+    int n = sizeof(a)/sizeof(a[0]);
+    int tot = 0;
+    for(int i=0;i<n;i++)
+        printf("%d  ",a[i]);     
     printf("\n");
-    qsort((void *)a,10,sizeof(int),comapre);
-    for(int i=0;i<10;i++)
-        printf("%4d",a[i]);
+    qsort((void *)a,n,sizeof(int),comapre);
+    tot += abs(cp - a[0]);
+    for(int i=0;i<n-1;i++){
+        // printf("%d  ",a[i]);
+        tot += abs(a[i]-a[i+1]);
+        printf("(%d - %d) + ",a[i],a[i+1]);
+    }
+    printf("\nTotal = %d\n",tot);
     return 0;
 }
