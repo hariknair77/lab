@@ -37,9 +37,15 @@ int main(){
     printf("\n");
     qsort((void *)a,n,sizeof(int),comapre);
     tot += abs(cp - a[0]);
+    for(int i=0;i<n;i++){
+        
+    }
     for(int i=0;i<n-1;i++){
-        // printf("%d  ",a[i]);
-        tot += abs(a[i]-a[i+1]);
+        tot += abs(a[i]-cp);
+        cp = a[i];
+        if(a[i]>a[0]){
+
+        }
         printf("(%d - %d) + ",a[i],a[i+1]);
     }
     printf("\nTotal = %d\n",tot);

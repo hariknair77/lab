@@ -8,7 +8,7 @@ int randint(int lower,int upper){
     return rand()%(upper-lower+1)+lower;
 }
 
-int comapre(const void *a,const void *b){
+int compare(const void *a,const void *b){
     int p = *(int *)a;
     int q = *(int *)b;
     if(mode == 1)
@@ -24,7 +24,7 @@ void scan(int disk[],int n,int cp,int start,int end){
     printf("******************************************************\n");
     dist = 0;
     mode = 1;
-    qsort((void *)disk,n,sizeof(int),comapre);
+    qsort((void *)disk,n,sizeof(int),compare);
     printf("\nStart : %d \nend : %d",start,end);  
     printf("\nCurrent postion : %d",cp);  
     printf("\nSorted : ");
@@ -56,7 +56,7 @@ void scan(int disk[],int n,int cp,int start,int end){
     found = 0;
     printf("\n\nTowards Left\n----------------");
     mode = 0;
-    qsort((void *)disk,n,sizeof(int),comapre);  
+    qsort((void *)disk,n,sizeof(int),compare);  
     printf("\nI/O Sequence : ");  
     for(i=0;i<n;i++)
         if(disk[i] <= cp){
