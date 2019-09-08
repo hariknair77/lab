@@ -70,7 +70,7 @@ void cscan(int disk[],int n,int cp,int start,int end){
     else{ 
         if(i != 0){
             dist += abs(start - disk[n-1]) + abs(end-disk[i-1]) + abs(disk[0] - disk[i-1]);
-                for(j=0;j<=i;j++)
+                for(j=0;j<i;j++)
                     printf("%d  ",disk[j]);
         } 
         printf("\nTotal Head movement : %d cylinders\n",dist);    
