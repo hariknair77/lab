@@ -1,0 +1,3 @@
+START 0
+0  LDA  ONE
+3  Add  ONE

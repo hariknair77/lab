@@ -28,14 +28,11 @@ void calc_wt(process p[],int n,int q){
             if(p[i].rt > 0){
                 flag=1;
                 if(p[i].rt > q){
+		    printf("waiting time");
                     t += q;
                     p[i].rt -= q;
-                    
-                    
-                    // printf("\nwaiting         time");
-
                 }
-                else{ 
+                else{
                     temp++;
                     t += p[i].rt;
                     p[i].tt = t;

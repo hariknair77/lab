@@ -1,0 +1,7 @@
+- START 0
+- LDA ONE
+- ADD ONE
+- RSUB -
+ONE RESW 1
+TWO WORD 3
+- END -
