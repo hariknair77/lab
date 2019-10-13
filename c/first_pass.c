@@ -55,7 +55,7 @@ int main()
     		strcpy(sym[k++],label);
             fprintf(fp3, "%s %x\n", label, locctr); //symtab
         }
-        if(strcmp(opcode,"RESW") && strcmp(opcode,"RESB"))
+        // if(strcmp(opcode,"RESW") && strcmp(opcode,"RESB"))
         	fprintf(fp2, "%x  %s  %s\n", locctr, opcode, operand);  //temp
         if (!strcmp(opcode, "WORD"))
             locctr += 3;
