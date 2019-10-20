@@ -1,5 +1,0 @@
-ONE 9
-DATA c
-ABC 16
-A 19
-TWO 1a
