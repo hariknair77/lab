@@ -35,7 +35,7 @@ int main()
     {
         locctr = atoi(operand);
         start_addr = locctr;
-        fprintf(fp2, "%s %s\n", opcode,operand);
+        fprintf(fp2, "%s %s\n", opcode,operand); //temp
         fscanf(fp1, "%s  %s  %s", label, opcode, operand);
     }
     else

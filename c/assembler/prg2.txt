@@ -1,7 +1,7 @@
     START 0
 LDA    ONE
-ADD   ONE  
-    RSUB   
+ADD   ONE
+    RSUB  
 ONE RESW 1
 DATA   RESB 10
   ABC   BYTE c'ABC'

@@ -10,9 +10,10 @@ int main()
         // Program exits if file pointer returns NULL.
         exit(1);         
     }
-    // reads text until newline 
+    // reads text until newline
+    fgets(c,1000,fptr); 
     while(!feof(fptr)){
-        fscanf(fptr,"%[^\n]", c);
+        fgets(c,1000,fptr);
     printf("Data from the file: %s", c);
     }
     
