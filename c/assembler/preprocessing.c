@@ -4,7 +4,8 @@
 #include <ctype.h>
 #define MAX 50
 
-char label[10],opcode[10],oprand[10],mnemonic[][10]={"LDA","STA","LDCH","STCH","ADD","RSUB"};
+char label[10],opcode[10],oprand[10];
+char mnemonic[][10]={"ADD","ADDF","ADDR","AND","CLEAR","COMP","COMPF","COMPR","DIV","DIVF","DIVR","J","JEQ","JGT","JLT","JSUB","LDA","LDB","LDCH","LDF","LDL","LDS","LDT","LDX","LPS","MUL","MULF","MULR","OR","RD","RMO","RSUB","SHIFTL","SHIFTR","STA","STB","STCH","STF","STL","STS","STSW","STT","STX","SUB","SUBF","SUBR","TD","TIX","TIXR","WD","FIX","FLOAT"};
 
 char *trim(char *string){
     while(isspace(string[0]))
@@ -36,7 +37,7 @@ int tokeniser(char line_[]){
     }
     else{
         strcpy(opcode,token[0]);
-        strcpy(oprand,"\0");
+        strcpy(oprand,"-");
     }
     return k;
 }
@@ -56,13 +57,15 @@ int find_length(char a[])
 }
 int main() 
 { 
-    FILE *f,*fp2,*fp3,*fp4;
+    FILE *f,*temp,*fp3,*fp4,*len;
     int i, j,k=0, locctr, start_addr,m,lc=0;
-    char line[MAX],sym[100][10];
-    
-    f = fopen("prg2.txt","r");    
-    fp2 = fopen("temp.txt", "a");
+    char line[MAX],sym[100][10],file[20];
+    printf("Enter file name : ");
+    scanf("%s",file);
+    f = fopen(file,"r");    
+    temp = fopen("temp.txt", "a");
     fp3 = fopen("symtab.txt", "a");
+    len = fopen("len.txt","w");
     fgets(line,MAX,f);
     lc++;
      m = tokeniser(line); 
@@ -70,7 +73,7 @@ int main()
     {
         locctr = atoi(oprand);
         start_addr = locctr;
-        fprintf(fp2, "%s %s\n", opcode,oprand);
+        fprintf(temp, "- %s %04x\n", opcode,start_addr);
         fgets(line,MAX,f);
         lc++;
          m = tokeniser(line); 
@@ -84,15 +87,15 @@ int main()
         if (m==3){
         	for(int l=0;l<k;l++)
         		if (strcmp(label,sym[l])==0){
-        	    // fprintf(fp2,"%s%d\n","Duplicate error on line : ",lc);  //temp
+        	    // fprintf(temp,"%s%d\n","Duplicate error on line : ",lc);  //temp
         			printf("Duplicate error on line : %d\n",lc);
                     fgets(line,MAX,f);
                     m = tokeniser(line);
         		}
     		strcpy(sym[k++],label);
-            fprintf(fp3, "%s %x\n", label, locctr); //symtab
+            fprintf(fp3, "%s %04x\n", label, locctr); //symtab
         }
-        	fprintf(fp2, "%x  %s  %s\n", locctr, opcode, oprand);  //temp
+        	fprintf(temp, "%04x %s %s\n", locctr, opcode, oprand);  //temp
         if (!strcmp(opcode, "WORD"))
             locctr += 3;
         else if (strcmp(opcode, "BYTE") == 0)
@@ -107,7 +110,7 @@ int main()
         	fgets(line,MAX,f);
             lc++;
             m = tokeniser(line);    
-        	exit(0);
+        	break;
         }
         else
             printf("Invalid Opcode on line : %d\n",lc);
@@ -115,5 +118,7 @@ int main()
         lc++;
         m = tokeniser(line);
     }
+    fprintf(len,"%06x",locctr);
+    exit(0);
 	return 0; 
 } 
