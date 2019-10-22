@@ -13,14 +13,27 @@ int is_opcode(char op[]){
                 return i;
 	return 0;
 }
-
+int find_length(char a[]){
+    if (a[0] == 'c')
+        return strlen(a) - 3;
+    else
+        return (strlen(a) - 3) / 2;
+}
 int find_sym(char s[]){
     FILE *sym;
     sym = fopen("symtab.txt","r");
     char label[10],addr[10];
+    int i = 0,flag=0;
+    while(s[i++]!='\0');
+    if(s[i-3] == ','){
+        flag = 1;
+        s[i-3] = '\0';
+    }
     while(!feof(sym)){
         fscanf(sym,"%s%s",label,addr);
-        if(!strcmp(s,label)){
+        if(!strcmp(s,label)){            
+            if(flag)
+                addr[0] = '8';
             strcpy(label_addr,addr);
             return 1;
         }
@@ -31,19 +44,21 @@ int find_sym(char s[]){
 int main(){
     FILE *temp,*obj,*list,*len;
     char addr[10], opcode[10], operand[10],length[10],prg_name[7]="------",obj_code[15];  
-    int start_addr=0,index,size=0,i; 
+    int start_addr=0,index,size=0,i,lc=0; 
     temp = fopen("temp.txt","r");
     obj = fopen("obj.txt","a");
     list = fopen("list.txt","a");
     len = fopen("len.txt","r");
     fscanf(len,"%s",length);
     fscanf(temp, "%s%s%s", addr, opcode, operand);
+    lc++;
     if(!strcmp("START",opcode)){
         if(strcmp("-",addr))
             strcpy(prg_name,addr);
         start_addr = atoi(operand);
         fprintf(list,"%s %s",opcode,operand); 
         fscanf(temp, "%s%s%s", addr, opcode, operand);
+        lc++;
     }
     fprintf(obj,"H^%s^%06x^%s",prg_name,start_addr,length);
     fprintf(obj,"\nT^%06x",start_addr);
@@ -55,32 +70,20 @@ int main(){
             if(strcmp("-",operand)){                        //searching for symbol...
                 if(!find_sym(operand)){                     //invalid label
                     strcpy(label_addr,"0000");
-                    printf("Error [undefined symbol] on line : \n");
+                    printf("Error [undefined symbol] on line %d \n",lc);
                 }                                          //else label is available [see label_addr]
             }
             else                                            //no label
                 strcpy(label_addr,"0000");    
             sprintf(obj_code,"%s%s",hex[index],label_addr);
-            // if(size<30)
-            //     fprintf(obj,"^%s%s",hex[index],label_addr); //assemble the object code 
-            // else{
-            //     fprintf(obj,"\nT^%06x^00",start_addr);
-            //     fprintf(obj,"^%s%s",hex[index],label_addr);                
-            //     size = 3;
-            // }
         }
         else if(!strcmp(opcode,"WORD")){
+            size += 3;
             obj_code[0] = '\0';
             sprintf(obj_code,"%06x",atoi(operand));
-            // if(size<30)
-            //     fprintf(obj,"^%06x",atoi(operand)); //assemble the object code             
-            // else{
-            //     fprintf(obj,"\nT^%06x^00",start_addr);
-            //     fprintf(obj,"^%06x",atoi(operand)); //assemble the object code                          
-            //     size = 3;
-            // }
         }
         else if(!strcmp(opcode,"BYTE")){
+            size += find_length(operand);
             obj_code[0] = '\0';
             char *opr = operand;
             opr += 2;
@@ -99,30 +102,27 @@ int main(){
                     i++;
                 }
             }
-            // printf("%s\n",obj_code);
-            // if(size<30)
-            //     fprintf(obj,"^%06x",atoi(operand)); //assemble the object code             
-            // else{
-            //     fprintf(obj,"\nT^%06x^00",start_addr);
-            //     fprintf(obj,"^%06x",atoi(operand)); //assemble the object code                          
-            //     size = 3;
-            // }
         }        
-        if(size<30 && (strcmp("RESW",opcode) && strcmp("RESB",opcode))){
+        if(size<=30 && (strcmp("RESW",opcode) && strcmp("RESB",opcode))){
             fprintf(obj,"^%s",obj_code); //assemble the object code 
             obj_code[0]='\0';
-        }   
-         
-            else{
-                while(!strcmp("RESW",opcode) || !strcmp("RESB",opcode))
-                    fscanf(temp, "%s%s%s", addr, opcode, operand);
-                
-                fprintf(obj,"\nT^00%s",addr);
-                goto label;
-                // fprintf(obj,"^%s",obj_code); //assemble the object code                 
-                // size = 3;
+        }    
+        else{
+            while(!strcmp("RESW",opcode) || !strcmp("RESB",opcode)){
+                fscanf(temp, "%s%s%s", addr, opcode, operand);
+                lc++;
             }
+            fprintf(obj,"\nT^00%s",addr);
+            if(size>30)
+                size = 0;
+            goto label;
+        }
+        if(!strcmp(opcode,"END")){
+            fprintf(obj,"\nE^%06x",start_addr);
+            break;
+        }
         fscanf(temp, "%s%s%s", addr, opcode, operand);
+        lc++;
     }    
     return 0;
 
