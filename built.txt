@@ -1,0 +1,116 @@
+   SQL> select round(cos(abs(-10)*exp(2))) from dual;
+
+ROUND(COS(ABS(-10)*EXP(2)))
+---------------------------
+                          0
+
+SQL> select round(log(10,sqrt(mod(power(5,4),14))),2) from dual;
+
+ROUND(LOG(10,SQRT(MOD(POWER(5,4),14))),2)
+-----------------------------------------
+                                      .48
+
+SQL> select (sin(30)+tan(60)) from dual;
+
+(SIN(30)+TAN(60))
+-----------------
+       -.66799123
+
+SQL> select floor(12.9),ceil(12.9) from dual;
+
+FLOOR(12.9) CEIL(12.9)
+----------- ----------
+         12         13
+
+
+
+select upper(name),lower(name),initcap(name) from instructor;
+
+UPPER(NAME)                    LOWER(NAME)
+------------------------------ ------------------------------
+WU                             wu
+EINSTEIN                       einstein
+EL SAID                        el said
+GOLD                           gold
+KATZ                           katz
+CALIFIERI                      califieri
+CRICK                          crick
+BRANDT                         brandt
+KIM                            kim
+SRINIVASAN                     srinivasan
+SINGH                          singh
+
+INITCAP(NAME)
+------------------------------
+Wu
+Einstein
+El Said
+Gold
+Katz
+Califieri
+Crick
+Brandt
+Kim
+Srinivasan
+Singh
+
+
+SQL> select concat(concat(name,' '),dept_name) as fullname from instructor;
+
+FULLNAME
+---------------------------------------------------
+Wu finance
+Einstein physics
+El Said history
+Gold physics
+Katz comp.sci
+Califieri history
+Crick biology
+Brandt comp.sci
+Kim elec.eng
+Srinivasan comp.sci
+Singh finance
+
+11 rows selected.
+
+
+SQL> select replace(course_id,'-','/')  as new_id from course;
+
+NEW_ID
+----------
+bio/101
+bio/301
+bio/399
+cs/101
+cs/190
+cs/315
+cs/319
+cs/347
+ee/181
+fin/201
+his/351
+mu/199
+phy/101
+
+13 rows selected.
+
+
+SQL> select substr(course_id,-3,3) from course;
+
+SUB
+---
+101
+301
+399
+101
+190
+315
+319
+347
+181
+201
+351
+199
+101
+
+13 rows selected.

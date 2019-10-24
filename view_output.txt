@@ -1,0 +1,122 @@
+SQL> create view yearview as select * from section where year=2009;
+
+View created.
+
+SQL> select course_id,year from yearview;
+
+COURSE_ID                  YEAR
+-------------------- ----------
+bio-101                    2009
+cs-101                     2009
+cs-190                     2009
+cs-190                     2009
+cs-347                     2009
+ee-181                     2009
+phy-101                    2009
+
+7 rows selected.
+
+
+SQL> create view studentview as select * from student order by name ;
+
+View created.
+
+NAME
+------------------------------
+Aoi
+Bourikas
+Brandt
+Brown
+Chavez
+Mozart
+Peltier
+Sanchez
+Shankar
+Snow
+Tanaka
+
+
+SQL> create view teacher as select name from instructor where id not in (select id from teaches);
+
+View created.
+
+SQL> select * from teacher;
+
+NAME
+------------------------------
+Gold
+Califieri
+Singh
+
+
+SQL> insert into studentview values(10000,'arya','biology',100);
+
+1 row created.
+
+SQL> update studentview set name='Saviour' where id = 10000;
+
+1 row updated.
+SQL> select name from studentview;
+
+NAME
+------------------------------
+Aoi
+Bourikas
+Brandt
+Brown
+Chavez
+Mozart
+Peltier
+Sanchez
+Saviour
+Shankar
+Tanaka
+
+NAME
+------------------------------
+Williams
+Zhang
+
+13 rows selected.
+
+SQL> delete from studentview where id=10000;
+
+1 row deleted.
+
+SQL> select name from studentview;
+
+NAME
+------------------------------
+Aoi
+Bourikas
+Brandt
+Brown
+Chavez
+Mozart
+Peltier
+Sanchez
+Shankar
+Tanaka
+Williams
+
+NAME
+------------------------------
+Zhang
+
+12 rows selected.
+
+SQL> drop view yearview;
+
+View dropped.
+
+SQL> drop view studentview;
+
+View dropped.
+
+SQL> drop view teacher;
+
+View dropped.
+
+
+
+

@@ -1,0 +1,14 @@
+SQL> grant select on student to public;
+
+Grant succeeded.
+
+
+SQL> grant all on student to public;
+
+Grant succeeded.
+
+
+
+SQL> revoke all on student from public;
+
+Revoke succeeded.

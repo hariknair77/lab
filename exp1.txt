@@ -1,0 +1,166 @@
+
+ALTER TABLE Department add dept_no number;
+SQL> ALTER TABLE Course modify Course_id char(50);
+
+Table altered.
+
+SQL> ALTER TABLE Classroom modify capacity int default (50);
+
+Table altered.
+
+SQL> alter table student modify name varchar(10) not null;
+
+Table altered.
+
+SQL>
+SQL> alter table department modify dept_name varchar(10) unique;
+alter table department modify dept_name varchar(10) unique
+                                                    *
+ERROR at line 1:
+ORA-02261: such unique or primary key already exists in the table
+
+
+SQL> alter table instructor add constraint at check(salary>50000);
+
+Table altered.
+
+SQL> alter table department modify building  varchar(10) unique;
+
+Table altered.
+SQL> alter table instructor, drop constraint gt;
+alter table instructor, drop constraint gt
+                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table instructor drop constraint gt;
+alter table instructor drop constraint gt
+                                       *
+ERROR at line 1:
+ORA-02443: Cannot drop constraint  - nonexistent constraint
+
+
+SQL> alter table course
+  2  drop constraint char9500;
+drop constraint char9500
+                *
+ERROR at line 2:
+ORA-02443: Cannot drop constraint  - nonexistent constraint
+
+
+SQL> alter table course drop constraint(50);
+alter table course drop constraint(50)
+                                  *
+ERROR at line 1:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table course drop constraint char(50);
+alter table course drop constraint char(50)
+                                   *
+ERROR at line 1:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table course drop constraint(R546.AT);
+alter table course drop constraint(R546.AT)
+                                  *
+ERROR at line 1:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table instructor drop constraint (R546.AT);
+alter table instructor drop constraint (R546.AT)
+                                       *
+ERROR at line 1:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table classroom drop constraint (R546.AT);
+alter table classroom drop constraint (R546.AT)
+                                      *
+ERROR at line 1:
+ORA-02250: missing or invalid constraint name
+
+
+SQL> alter table course drop constraint AT;
+alter table course drop constraint AT
+                                   *
+ERROR at line 1:
+ORA-02443: Cannot drop constraint  - nonexistent constraint
+
+
+SQL> alter table instructor  drop constraint AT;
+
+Table altered.
+
+SQL> insert into classroom(building,room_number) values('abc',410,60);
+insert into classroom(building,room_number) values('abc',410,60)
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into classroom values('abc',410,60);
+insert into classroom values('abc',410,60)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (R546.SYS_C0011804) violated
+
+
+SQL> alter table classroom drop constraint sys_C0011804;
+alter table classroom drop constraint sys_C0011804
+                                      *
+ERROR at line 1:
+ORA-02273: this unique/primary key is referenced by some foreign keys
+
+
+SQL> alter table classroom drop constraint SYS_C0011804;
+alter table classroom drop constraint SYS_C0011804
+                                      *
+ERROR at line 1:
+ORA-02273: this unique/primary key is referenced by some foreign keys
+
+
+SQL> insert into classroom values('abc',410,null);
+insert into classroom values('abc',410,null)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (R546.SYS_C0011804) violated
+
+
+SQL> alter table classroom modify capacity int default(null);
+
+Table altered.
+
+SQL> insert into classroom values('abc',410,67);
+insert into classroom values('abc',410,67)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (R546.SYS_C0011804) violated
+
+
+SQL> alter table course modify course_id char(5);
+
+Table altered.
+
+SQL> insert alter table student modify name varchar(10) not null;
+insert alter table student modify name varchar(10) not null
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL> insert alter table student modify name varchar(10)  null;
+insert alter table student modify name varchar(10)  null
+       *
+ERROR at line 1:
+ORA-00925: missing INTO keyword
+
+
+SQL>  alter table student modify name varchar(10)  null;
+
+Table altered.
+
+SQL>

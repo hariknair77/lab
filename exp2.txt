@@ -1,0 +1,28 @@
+create table Classroom(building varchar(25),room_number int primary key,capacity int);
+create table Department(dept_Name varchar(25) primary key,building varchar(25),budget int);
+create table Course(course_id varchar(10) primary key,title varchar(25),dept_Name varchar(25),credits number,foreign key(dept_Name) references Department(dept_Name));
+create table Instructor(ID number primary key ,name varchar(30),dept_Name varchar(20),salary number,foreign key(dept_Name) references Department(dept_Name));
+create table Student(ID number primary key,name varchar(30),dept_Name varchar(20),tot_cred number,foreign key(dept_Name) references Department(dept_Name));
+create table Section(course_id varchar(20) ,sec_id number ,semester varchar(20),year number,building varchar(20),room_number number,foreign key(course_id) references Course(course_id),foreign key(room_number) references Classroom(room_number) );
+create table Teaches(ID number,course_id varchar(20) ,sec_id number ,semester varchar(20),year number,foreign key(ID) references Instructor(ID),foreign key(course_id) references Course(course_id));
+create table subject(ID number,course_id varchar(20) ,sec_id number ,semester varchar(20),year number,grade char(2),foreign key(ID) references Student(ID),foreign key(course_id) references Course(course_id));
+
+
+alter table Course modify course_id varchar(10);
+alter table Department add dept_no number;
+alter table Student modify Name varchar(10) not null;
+alter table Classroom modify Capacity int default 50;
+alter table Department add constraint unique_contraint unique(dept_no);
+alter table Instructor add constraint salary_contraint check(salary>50000);
+
+insert into Instructor values(12121, 'Wu','Finance',1200);
+insert into Classroom(room_number) values(10);
+
+alter table Department drop column dept_no;
+alter table Department drop constraint unique_contraint;
+alter table Instructor drop constraint salary_contraint;
+
+
+alter table Takes rename to Subject;
+
+

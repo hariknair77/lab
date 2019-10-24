@@ -1,0 +1,119 @@
+SQL> update student set name='Mozart' where id=45678;
+
+1 row updated.
+
+SQL> update department set budget=1000000,building='Taylor' where dept_name='his
+tory';
+
+1 row updated.
+
+SQL> select * from department;
+
+DEPT_NAME                 BUILDING                      BUDGET
+------------------------- ------------------------- ----------
+biology                   Watson                         90000
+comp.sci                  taylor                        100000
+elec.eng                  taylor                         85000
+finance                   painter                       120000
+history                   Taylor                       1000000
+music                     packard                        80000
+physics                   watson                         70000
+
+7 rows selected.
+
+SQL> update instructor set salary = salary*1.1;
+
+10 rows updated.
+
+SQL> update course set credit=4 where dept_name='comp.sci';
+update course set credit=4 where dept_name='comp.sci'
+                  *
+ERROR at line 1:
+ORA-00904: "CREDIT": invalid identifier
+
+
+SQL> update course set credits=4 where dept_name='comp.sci';
+
+5 rows updated.
+
+SQL> update student set tot_cred = tot_cred+10 where tot_cred between 20 and 50;
+
+
+3 rows updated.
+
+SQL> update instructor set salary=salary*1.05 where salary<(select avg(salary) f
+rom instructor);
+
+4 rows updated.
+
+SQL> update takes set year=2010 where course_id='cs-101' and semester='fall';
+
+6 rows updated.
+
+SQL> delete from student where tot_cred=0;
+
+1 row deleted.
+
+SQL> delete from instructor where id like 765%;
+delete from instructor where id like 765%
+                                        *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> delete from instructor where id like '765%';
+
+1 row deleted.
+
+SQL> delete from course where course_id not in (select course_id from section);
+
+1 row deleted.
+
+SQL> select name,dept_name from instructor;
+
+NAME                           DEPT_NAME
+------------------------------ --------------------
+Wu                             finance
+Einstein                       physics
+El Said                        history
+Gold                           physics
+Katz                           comp.sci
+Califieri                      history
+Crick                          biology
+Brandt                         comp.sci
+Kim                            elec.eng
+
+9 rows selected.
+
+SQL>
+SQL> select distinct semester from teaches;
+
+SEMESTER
+--------------------
+fall
+spring
+summer
+
+SQL> select id,name from instructor where salary>70000 and dept_name='comp.sci';
+
+
+        ID NAME
+---------- ------------------------------
+     45565 Katz
+     83821 Brandt
+
+SQL> select name,salary*1.1 as salary_raise from instructor;
+
+NAME                           SALARY_RAISE
+------------------------------ ------------
+Wu                                   108900
+Einstein                             114950
+El Said                               76230
+Gold                                 105270
+Katz                                95287.5
+Califieri                             78771
+Crick                                 91476
+Brandt                               111320
+Kim                                   96800
+
+9 rows selected.

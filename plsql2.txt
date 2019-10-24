@@ -1,0 +1,53 @@
+DECLARE 
+   a number; 
+   b number; 
+   c number;
+PROCEDURE findMin(x IN number, y IN number, z OUT number) IS 
+BEGIN 
+   IF x > y THEN 
+      z:= x; 
+   ELSE 
+      z:= y; 
+   END IF; 
+END;   
+BEGIN 
+   findMin(&a, &b, c); 
+   dbms_output.put_line(' max  : ' || c); 
+END; 
+/
+Enter value for a: 1
+Enter value for b: 2
+old  14:    findMin(&a, &b, c);
+new  14:    findMin(1, 2, c);
+max  : 2
+
+PL/SQL procedure successfully completed.
+
+
+declare
+  a number;
+  i number := 0;
+  rem number;
+  dec number := 0
+  x number := 100;
+procedure toDec(y out number) is
+DECLARE 
+  a number;
+  i number := 0;
+  rem number;
+  dec number := 0
+  x number := 100;
+begin
+  while (x > 0) loop
+	rem := mod(x,10);
+	dec := dec + rem*power(2,i);
+	i := i + 1
+	x := x/10;
+  end loop
+  dbms_output..putline(dec);
+end ;
+begin
+  toDec(&a);
+end;
+/	
+	

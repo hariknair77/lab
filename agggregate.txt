@@ -1,0 +1,32 @@
+SQL> select sum(salary),max(salary),min(salary),avg(salary) from instructor;
+
+SUM(SALARY) MAX(SALARY) MIN(SALARY) AVG(SALARY)
+----------- ----------- ----------- -----------
+     944095      104500       65000  85826.8182
+
+
+SQL> select sum(salary),max(salary),min(salary),avg(salary) from instructor where dept_name='history';
+
+SUM(SALARY) MAX(SALARY) MIN(SALARY) AVG(SALARY)
+----------- ----------- ----------- -----------
+     140910       71610       69300       70455
+
+
+SQL> select count(name) from instructor;
+
+COUNT(NAME)
+-----------
+         11
+
+SQL> select count(name) from instructor where dept_name='history';
+
+COUNT(NAME)
+-----------
+          2
+
+SQL> select count(distinct salary) from instructor;
+
+COUNT(DISTINCTSALARY)
+---------------------
+                   11
+

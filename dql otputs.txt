@@ -1,0 +1,112 @@
+SQL> select name,dept_name from instructor;
+
+NAME                           DEPT_NAME
+------------------------------ --------------------
+Wu                             finance
+Einstein                       physics
+El Said                        history
+Gold                           physics
+Katz                           comp.sci
+Califieri                      history
+Crick                          biology
+Brandt                         comp.sci
+Kim                            elec.eng
+
+9 rows selected.
+
+
+SQL> select distinct semester from teaches;
+
+SEMESTER
+--------------------
+fall
+spring
+summer
+
+SQL>  select id,name from instructor where  dept_name = 'comp.sci' and salary>70000;
+
+        ID NAME
+---------- ------------------------------
+     45565 Katz
+     83821 Brandt
+
+SQL> select name,salary*1.1 as Salary_hike from instructor;
+
+NAME                           SALARY_HIKE
+------------------------------ -----------
+Wu                                  108900
+Einstein                            114950
+El Said                              76230
+Gold                                105270
+Katz                               95287.5
+Califieri                            78771
+Crick                                91476
+Brandt                              111320
+Kim                                  96800
+
+9 rows selected.
+
+SQL> select i.name,i.dept_name,d.building from instructor i,department d where i.dept_name = d.dept_name;
+
+NAME                           DEPT_NAME            BUILDING
+------------------------------ -------------------- -------------------------
+Wu                             finance              painter
+Einstein                       physics              watson
+El Said                        history              Taylor
+Gold                           physics              watson
+Katz                           comp.sci             taylor
+Califieri                      history              Taylor
+Crick                          biology              Watson
+Brandt                         comp.sci             taylor
+Kim                            elec.eng             taylor
+Srinivasan                     comp.sci             taylor
+Singh                          finance              painter
+
+
+SQL> select i.name,t.course_id from instructor i,teaches t where i.dept_name = 'comp.sci' and i.id=t.id;
+
+NAME                           COURSE_ID
+------------------------------ --------------------
+Katz                           cs-101
+Katz                           cs-319
+Brandt                         cs-190
+Brandt                         cs-190
+Brandt                         cs-319
+Srinivasan                     cs-315
+Srinivasan                     cs-347
+Srinivasan                     cs-101
+
+8 rows selected.
+
+SQL> select * from course where title like 'intro%';
+
+COURSE_ID  TITLE                     DEPT_NAME                    CREDITS
+---------- ------------------------- ------------------------- ----------
+bio-101    intro to biology          biology                            4
+cs-101     intro to computer science comp.sci                           4
+ee-181     intro to digital system   elec.eng                           3
+
+
+
+SQL> select * from course where title like '%comp%';
+
+COURSE_ID  TITLE                     DEPT_NAME                    CREDITS
+---------- ------------------------- ------------------------- ----------
+cs-101     intro to computer science comp.sci                           4
+bio-399    computational bilogy      biology                            3
+
+
+
+SQL> select * from student where name like '___';
+
+        ID NAME                           DEPT_NAME              TOT_CRED
+---------- ------------------------------ -------------------- ----------
+     76653 Aoi                            elec.eng                     60
+
+
+
+SQL> select * from instructor where name like '___';
+
+        ID NAME                           DEPT_NAME                SALARY
+---------- ------------------------------ -------------------- ----------
+     98345 Kim                            elec.eng                  88000

@@ -1,0 +1,66 @@
+CREATE TABLE Classroom (
+ building varchar(5),
+ room_number int primary key,
+ capacity int);
+ 
+CREATE TABLE Department (
+ dept_Name varchar(5) primary key,
+ building varchar(5),
+ budget int);
+
+CREATE TABLE Course (
+ course_id char(7) primary key, 
+ title varchar(20),
+ dept_Name varchar(20),
+ credits int,
+ foreign key(dept_Name) references Department (dept_Name));
+
+CREATE TABLE Instructor (
+ ID int primary key,
+ name varchar(10),
+ dept_Name varchar(10),
+ salary int,
+ foreign key(dept_Name) references Department (dept_Name));
+
+CREATE TABLE Student (
+ ID int primary key,
+ name varchar(15),
+ dept_Name varchar(10),
+ tot_cred int,
+ foreign key(dept_Name) references Department (dept_Name));
+ 
+CREATE TABLE Section (
+ course_id char(7),
+ sec_id number(1),
+ semester varchar(10),
+ year number(4),
+ building varchar(10),
+ room_number int,
+ foreign key(course_id) references Course(course_id),
+ foreign key(room_number) references Classroom (room_number));
+
+CREATE TABLE Teaches (
+ ID int,
+ course_id char(7),
+ sec_id number(1),
+ semester varchar(10),
+ year number(4),
+ foreign key(ID) references Instructor(ID),
+ foreign key(course_id) references Course(course_id));
+ 
+
+
+CREATE TABLE Takes (
+ ID int,
+ course_id char(7),
+ sec_id number(1),
+ semester varchar(10),
+ year number(4),
+ grade char(2),
+ foreign key(ID) references Student(ID),
+ foreign key(course_id) references Course(course_id));
+
+
+
+
+

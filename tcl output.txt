@@ -1,0 +1,58 @@
+SQL> update student set name='John' where id=44553;
+
+1 row updated.
+
+SQL> select name from student where id=44553;
+
+NAME
+------------------------------
+John
+
+
+
+SQL> commit;
+
+Commit complete.
+
+
+
+SQL> update student set name='Peltier' where id=44553;
+
+1 row updated.
+
+SQL> select name from student where id=44553;
+
+NAME
+------------------------------
+Peltier
+
+
+SQL> rollback;
+
+Rollback complete.
+
+
+SQL> insert into student values(17070,'hari','comp.sci','120');
+
+1 row created.
+
+SQL>  update student set name='John' where id=17070;
+
+1 row updated.
+
+SQL> update student set name='snow' where id=17070;
+
+1 row updated.
+
+SQL> savepoint name_update;
+
+Savepoint created.
+
+SQL> update student set name='King' where id=17070;
+
+1 row updated.
+
+
+SQL> rollback to name_update;
+
+Rollback complete.
