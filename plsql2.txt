@@ -2,7 +2,7 @@ DECLARE
    a number; 
    b number; 
    c number;
-PROCEDURE findMin(x IN number, y IN number, z OUT number) IS 
+PROCEDURE findMax(x IN number, y IN number, z OUT number) IS 
 BEGIN 
    IF x > y THEN 
       z:= x; 
@@ -11,7 +11,7 @@ BEGIN
    END IF; 
 END;   
 BEGIN 
-   findMin(&a, &b, c); 
+   findMax(&a, &b, c); 
    dbms_output.put_line(' max  : ' || c); 
 END; 
 /
@@ -22,32 +22,110 @@ new  14:    findMin(1, 2, c);
 max  : 2
 
 PL/SQL procedure successfully completed.
+-- ***********************************************************************************************
+SQL> declare
+  2    a number;
+  3  procedure toDec(b in number) as
+  4    i number := 0;
+  5    dec number := 0;
+  6    x number := b;
+  7  begin
+  8    while (x > 0) loop
+  9     dec := dec + mod(x,10)*power(2,i);
+ 10     i := i + 1;
+ 11     x := floor(x/10);
+ 12    end loop;
+ 13    dbms_output.put_line(dec);
+ 14  end ;
+ 15  begin
+ 16    toDec(&a);
+ 17  end;
+ 18  /
 
+Enter value for a: 100
+old  16:   toDec(&a);
+new  16:   toDec(100);
+4
 
-declare
-  a number;
-  i number := 0;
-  rem number;
-  dec number := 0
-  x number := 100;
-procedure toDec(y out number) is
-DECLARE 
-  a number;
-  i number := 0;
-  rem number;
-  dec number := 0
-  x number := 100;
+-- ***********************************************************************************************
+create or replace procedure quad(a in number,b in number,c in number) as
+d number;
 begin
-  while (x > 0) loop
-	rem := mod(x,10);
-	dec := dec + rem*power(2,i);
-	i := i + 1
-	x := x/10;
-  end loop
-  dbms_output..putline(dec);
-end ;
-begin
-  toDec(&a);
+d := b*b-4*a*c;
+if (d >= 0) then
+  dbms_output.put_line('root 1 : '|| (-b+sqrt(d))/2*a);
+  dbms_output.put_line('root 1 : '|| (-b-sqrt(d))/2*a);
+else
+  dbms_output.put_line('imaginary roots');
+  dbms_output.put_line('root 1 : '|| (-b/2*a)||' + i'||round(sqrt(abs(d)),2));
+  dbms_output.put_line('root 1 : '|| (-b/2*a)||' - i'||round(sqrt(abs(d)),2));
+end if;
 end;
-/	
-	
+/
+Procedure created.
+
+SQL> execute quad(1,1,1);
+imaginary roots
+root 1 : -.5 + i 1.73
+root 1 : -.5 - i 1.73
+
+PL/SQL procedure successfully completed.
+
+-- ***********************************************************************************************
+SQL> select id,salary from instructor;
+
+        ID     SALARY
+---------- ----------
+     12121      99000
+     22222     104500
+
+create or replace procedure incr(cid in number) is
+  begin
+    update instructor set salary=salary*1.2 where cid =id;
+    if(sql%notfound) then
+    dbms_output.put_line('id not found');
+    end if;
+    end;
+    /
+Procedure created.
+
+
+SQL> execute incr(12121);
+
+PL/SQL procedure successfully completed.
+
+SQL> select id,salary from instructor;
+
+        ID     SALARY
+---------- ----------
+     12121     118800
+     22222     104500
+
+-- ***********************************************************************************************
+SQL> select * from emp;
+
+       CID        EMI
+---------- ----------
+         1        500
+         2       2000
+         3       3000
+create or replace procedure del(id in number) as
+  begin
+    delete from emp where cid =id;
+    if(sql%notfound) then
+    dbms_output.put_line('id not found');
+    end if;
+    end;
+    /
+Procedure created.
+
+SQL> execute del(1);
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from emp;
+
+       CID        EMI
+---------- ----------
+         2       2000
+         3       3000
