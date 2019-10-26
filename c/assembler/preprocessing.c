@@ -2,11 +2,36 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 #define MAX 50
 
 char label[10],opcode[10],oprand[10];
 char mnemonic[][10]={"ADD","ADDF","ADDR","AND","CLEAR","COMP","COMPF","COMPR","DIV","DIVF","DIVR","J","JEQ","JGT","JLT","JSUB","LDA","LDB","LDCH","LDF","LDL","LDS","LDT","LDX","LPS","MUL","MULF","MULR","OR","RD","RMO","RSUB","SHIFTL","SHIFTR","STA","STB","STCH","STF","STL","STS","STSW","STT","STX","SUB","SUBF","SUBR","TD","TIX","TIXR","WD","FIX","FLOAT"};
 
+int hex_to_dec(char *hex){
+    int cnt=0,dec=0,i,dig;
+    for(i=(strlen(hex)-1);i>=0;i--){
+        switch(hex[i]){
+            case 'A':
+                dig=10; break;
+            case 'B':
+                dig=11; break;
+            case 'C':
+                dig=12; break;
+            case 'D':
+                dig=13; break;
+            case 'E':
+                dig=14; break;
+            case 'F':
+                dig=15; break;
+            default:
+                dig=hex[i]-0x30; //0x30 = '0'
+        }
+        dec= dec+ (dig)*pow((double)16,(double)cnt);
+        cnt++;
+    }
+    return dec;
+}
 char *trim(char *string){
     while(isspace(string[0]))
         string++;
@@ -71,7 +96,7 @@ int main()
      m = tokeniser(line); 
     if (strcmp(opcode, "START") == 0)
     {
-        locctr = atoi(oprand);
+        locctr = hex_to_dec(oprand);
         start_addr = locctr;
         fprintf(temp, "- %s %04x\n", opcode,start_addr);
         fgets(line,MAX,f);

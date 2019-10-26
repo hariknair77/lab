@@ -32,8 +32,12 @@ int find_sym(char s[]){
     while(!feof(sym)){
         fscanf(sym,"%s%s",label,addr);
         if(!strcmp(s,label)){            
-            if(flag)
-                addr[0] = '8';
+            if(flag){
+                char index[2];
+                sprintf(index,"%c",addr[0]);
+                sprintf(index,"%x", atoi(index)^ 8);
+                addr[0] = index[0];
+            }
             strcpy(label_addr,addr);
             return 1;
         }
