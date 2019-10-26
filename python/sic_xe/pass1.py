@@ -1,6 +1,6 @@
 #Program file
-path = input('Enter file : ')
-
+# path = input('Enter file : ')
+path = 'fib.txt'
 #preprocessing line...
 def split_(line):
     line = line[:-1].split(' ')  
@@ -39,7 +39,6 @@ with open(path,'r') as f:
     else:
         locctr=start_addr=0
     while line:
-        line = split_(f.readline())
         if '.' not in line:
             if line[0] != '-':
                 if line[0] in symtab:
@@ -47,16 +46,16 @@ with open(path,'r') as f:
                 else:
                     symtab[line[0]] = locctr
                     sym.write(f'{line[0]} {hex(locctr)[2:].zfill(5)}\n')
-            if line[1] in optab:
-                if optab[line[1]]['len'] == 1:
+            temp.write(f'{hex(locctr)[2:].zfill(5)} {line[1]} {line[2]}\n')
+            if line[1] in optab or line[1][1:] in optab:
+                if '+' in line[1]:
+                        locctr += 4
+                elif optab[line[1]]['len'] == 1:
                     locctr += 1
                 elif optab[line[1]]['len'] == 2:
                     locctr += 2
                 else:
-                    if '+' in line[1]:
-                        locctr += 4
-                    else:
-                        locctr += 3
+                    locctr += 3
             elif line[1] == 'WORD':
                 locctr += 3
             elif line[1] == 'BYTE':
@@ -71,7 +70,8 @@ with open(path,'r') as f:
             elif line[1] == 'END':
                 temp.write(f'{hex(locctr)[2:].zfill(5)} {line[1]} {start_addr}\n')
                 break
-            temp.write(f'{hex(locctr)[2:].zfill(5)} {line[1]} {line[2]}\n')
+        line = split_(f.readline())
+
 prg_len = hex(locctr-start_addr)[2:].zfill(5)
 temp.close()
 sym.close()

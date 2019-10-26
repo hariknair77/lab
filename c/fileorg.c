@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#define CL 2
+#define CL 5
 
 typedef struct node{
     char name[32];
@@ -10,7 +10,7 @@ typedef struct node{
     struct node *child[CL];
     struct node *parent;
     int child_count;
-    char *data;
+    char data[255];
 }node;
 node *root = NULL;
 node *pwd = NULL;
@@ -21,9 +21,11 @@ void help()
 	 printf("\npwd: ");  printf("\tTo print location of present working directory");
 	 printf("\nls: ");  printf("\tTo print contents of pwd");
 	 printf("\nmkdir: ");  printf("\tTo create new directory in pwd");  printf("\t\t\tUsage: ");  printf("mkdir <dirname>");
-	 printf("\nrmdir: ");  printf("\tTo remove directory in pwd");  printf("\t\t\tUsage: ");  printf("rmdir <dirname>");
-     printf("\nrm: ");  printf("\tTo remove file");  printf("\t\t\tUsage: ");  printf("rm <filename>");
+	 printf("\nrmdir: "); printf("\tTo remove an empty directory in pwd");printf("\t\tUsage: ");printf("rmdir <dirname>");
+     printf("\nrm -r: ");  printf("\tTo remove directory in pwd");  printf("\t\t\tUsage: ");  printf("rm -r <dirname>");
+     printf("\nrm: ");  printf("\tTo remove file");  printf("\t\t\t\t\tUsage: ");  printf("rm <filename>");
 	 printf("\ntouch: ");  printf("\tTo create new file in pwd");  printf("\t\t\tUsage: ");  printf("touch <filename> <data>");
+     printf("\ncat: ");printf("\tTo print data in a file");printf("\t\t\t\tUsage: ");printf("cat <filename>");
 	 printf("\nquit: ");  printf("\tQuit the program");
 	printf("\n");
 }
@@ -48,8 +50,8 @@ void mkdir(){
         printf("Child limit exceeds\n");
     else{
         for(i=0;i < pwd->child_count;i++)
-            if(!strcmp(name,pwd->child[i]->name) && pwd->child[i]->type == 'd'){
-                printf("Directory already exists\n");
+            if(!strcmp(name,pwd->child[i]->name)){
+                printf("mkdir: cannot create directory : File exists\n");
                 return;
             }    
         node *new = (node *)malloc(sizeof(node));
@@ -71,15 +73,16 @@ void touch(){
         return;
     }
     scanf("%s",name);
+    scanf("%s",data);
     for(i=0;i < pwd->child_count;i++)
-        if(!strcmp(name,pwd->child[i]->name) && pwd->child[i]->type == 'f'){
-            printf("File already exists\n");
+        if(!strcmp(name,pwd->child[i]->name)){
+            printf("touch: cannot create file : File exists\n");
             return;
         }    
     node *new = (node *)malloc(sizeof(node));
     strcpy(new->name,name);
+    strcpy(new->data,data);
     new->type = 'f';
-    scanf("%s",data);
     pwd->child[pwd->child_count] = new;
     pwd->child_count++;
 }
@@ -100,37 +103,96 @@ void cd(){
     char arg[32];
     scanf("%s",arg);
     if(!strcmp(arg,"..")){
-        if(!strcmp(pwd->name,"/"))
-            printf("Cant go back..\n");
+        if(!strcmp(pwd->name,"/"));
         else
             pwd = pwd->parent;
     }
     else if(!strcmp(arg,"/"))
         pwd = root;
     else{
-        for(int i=0;i<pwd->child_count;i++)
-            if(!strcmp(arg,pwd->child[i]->name)){
+        for(int i=0;i<pwd->child_count;i++){
+            if(!strcmp(arg,pwd->child[i]->name))
+                if(pwd->child[i]->type == 'd'){
                 pwd = pwd->child[i];
                 return;
             }
+            else{
+                printf("Not a Directory\n");
+                return;
+            }
+        }
         printf("Directory not found\n");
     }
 }
 void rmdir(){
     char name[32];
-    int i;
+    int i,j;
     scanf("%s",name);
     for(i=0;i < pwd->child_count;i++)
-        if(!strcmp(name,pwd->child[i]->name) && pwd->child[i]->type == 'd'){
-            if(pwd->child[i]->child_count != 0)
-                printf("cant delete [directory not empty]\n");                
-            // else{
-            //     for(int j=i;j<pwd->child_count;j++)
-            //         pwd->child[j-1] = pwd->child[j];
-            //     pwd->child_count--;
-                
-            // }
+        if(!strcmp(name,pwd->child[i]->name)){
+            if(pwd->child[i]->type == 'f'){
+                printf("rmdir: failed to remove : Not a directory\n" );
+                return;
+            }
+            if(pwd->child[i]->child_count != 0){
+                printf("rmdir: failed to remove : Directory not empty\n");                
+                return;
+            }
+            else{
+                for(j=i;j<pwd->child_count-1;j++)
+                    pwd->child[j] = pwd->child[j+1];
+                pwd->child_count--;
+                return;  
+            }
         }
+    printf("Directory not found\n");
+}
+void rm(){
+    char name[32];
+    int i,j,flag=0;
+    scanf("%s",name);
+    if(!strcmp(name,"-r")){
+        scanf("%s",name);
+        flag = 1;
+    }
+    for(i=0;i < pwd->child_count;i++)
+        if(!strcmp(name,pwd->child[i]->name)){
+            if(flag == 0 && pwd->child[i]->type == 'd')
+                printf("rm: cannot remove : Is a directory\n");
+            else{               
+                for(j=i;j<pwd->child_count-1;j++)
+                    pwd->child[j]->name,pwd->child[j+1]->name;
+                pwd->child_count--;
+                break;  
+            }
+        }
+}
+void cat(){
+    char name[32];
+    scanf("%s",name);
+    for(int i=0;i < pwd->child_count;i++)
+        if(!strcmp(name,pwd->child[i]->name) && pwd->child[i]->type == 'f'){
+            printf("%s\n",pwd->child[i]->data );
+            // printf("%s\n", pwd->child[i]->name);
+            return;
+        }
+    printf("File not found\n");
+}
+void loc(){
+    char tree[100][20];
+    int i=0;
+    node *p = pwd;
+    if(!strcmp(p->name,"/")){
+        printf("/\n");
+        return;
+    }
+    while(strcmp(p->name,"/")){
+        strcpy(tree[i++],p->name);
+        p = p->parent;
+    }
+    for(int j=i-1;j>=0;j--)
+        printf("/%s",tree[j] );
+    printf("\n");    
 }
 int main(){
     char cmd[20];
@@ -150,11 +212,12 @@ int main(){
             touch();
         else if(!strcmp(cmd,"rmdir"))
             rmdir();
-        // else if(!strcmp(cmd,"rm"))
-        //     rm();
-        
-        // }
-                
+        else if(!strcmp(cmd,"rm"))
+            rm();
+        else if(!strcmp(cmd,"cat"))
+            cat();
+        else if(!strcmp(cmd,"pwd"))
+            loc();
         else if(!strcmp(cmd,"quit"))
             exit(0);
         else
