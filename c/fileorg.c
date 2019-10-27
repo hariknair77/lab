@@ -73,7 +73,7 @@ void touch(){
         return;
     }
     scanf("%s",name);
-    scanf("%s",data);
+    scanf("%[^\n]",data);
     for(i=0;i < pwd->child_count;i++)
         if(!strcmp(name,pwd->child[i]->name)){
             printf("touch: cannot create file : File exists\n");
@@ -139,6 +139,7 @@ void rmdir(){
                 return;
             }
             else{
+                // free(pwd->child[i]);
                 for(j=i;j<pwd->child_count-1;j++)
                     pwd->child[j] = pwd->child[j+1];
                 pwd->child_count--;
@@ -159,9 +160,10 @@ void rm(){
         if(!strcmp(name,pwd->child[i]->name)){
             if(flag == 0 && pwd->child[i]->type == 'd')
                 printf("rm: cannot remove : Is a directory\n");
-            else{               
+            else{       
+                // free(pwd->child[i]);
                 for(j=i;j<pwd->child_count-1;j++)
-                    pwd->child[j]->name,pwd->child[j+1]->name;
+                    pwd->child[j] = pwd->child[j+1];
                 pwd->child_count--;
                 break;  
             }
@@ -198,7 +200,7 @@ int main(){
     char cmd[20];
     init_root();
     while(1){
-        printf("/%s> ",pwd->name);
+        printf("/%s >> ",pwd->name);
         scanf("%s",cmd);
         if(!strcmp(cmd,"help"))
             help();
