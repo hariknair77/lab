@@ -1,0 +1,11 @@
+   START   0
+first   LDA    =C'FOO'
+        LDS    =C'BAR'
+        LDL    =C'FOO'
+        LTORG
+next1   LDB    =X'123456'
+        LDS    =X'ABCDEF'
+        LDT    =X'123456'
+        LDT    =W'12'
+        J       next2
+        END     
