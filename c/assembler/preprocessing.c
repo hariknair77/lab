@@ -75,7 +75,7 @@ int is_opcode(char op[]){
 }
 int find_length(char a[])
 {
-    if (a[0] == 'c')
+    if (a[0] == 'c' || a[0] == 'C')
         return strlen(a) - 3;
     else
         return (strlen(a) - 3) / 2;

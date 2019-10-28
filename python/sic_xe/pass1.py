@@ -1,6 +1,6 @@
 #Program file
-# path = input('Enter file : ')
-path = 'fib.txt'
+path = input('Enter file : ')
+
 #preprocessing line...
 def split_(line):
     line = line[:-1].split(' ')  
