@@ -6,11 +6,9 @@ SQL> declare
   6  /
 welocme
 
-
-
 PL/SQL procedure successfully completed.
 
-
+-- ***********************************************************************************************
 declare
  mark pls_integer := 45;
  begin
@@ -31,7 +29,7 @@ A
 
 PL/SQL procedure successfully completed.
 
-
+-- ***********************************************************************************************
 declare
 type marks is varray(5) of pls_integer;
 m1 marks;
@@ -54,7 +52,7 @@ Total mark of students
 5 : 165
 
 PL/SQL procedure successfully completed.
-
+-- ***********************************************************************************************
 declare
 num pls_integer := 5;
 temp pls_integer;
@@ -70,10 +68,10 @@ end;
 /
 Factorial of 5 = 120
 
-
+-- ***********************************************************************************************
 declare
 i pls_integer := 1;
-begin`	
+begin	
 loop
 if(i>10) then
 exit;
@@ -96,10 +94,7 @@ end;
 3 * 10 = 30
 
 PL/SQL procedure successfully completed.
-
-
-
-
+-- ***********************************************************************************************
 create table num(even int,odd int);
 SQL> begin
   2  for i in 1 .. 10 loop
@@ -130,7 +125,7 @@ SQL> select * from num;
         10
 
 10 rows selected.
-
+-- ***********************************************************************************************
 create table sq_cube(sq int,cube int);
 declare
 sq pls_integer;
@@ -161,21 +156,7 @@ SQL> select *  from sq_cube;
        100       1000
 
 10 rows selected.
-
-
-begin
-update emp set emi=emi/2 where cid == n;
-dbms_output.put_line('emi updated');
-end;
-/
-
-
-
-
-
-
-8:
-
+-- ***********************************************************************************************
 SQL> create table emp(cid int not null,emi int);
 
 Table created.
