@@ -1,43 +1,38 @@
-#include <stdio.h>
+#include <stdio.h> 
+#include <stdlib.h>
 #include <string.h>
-#include <math.h>
- 
-int main()
-{
-    char hex[32]={0};
-    int  dec,i;
-    int  cnt;   /*for power index*/
-    int  dig;   /*to store digit*/
- 
-    printf("Enter hex value: ");
-    gets(hex);
- 
-    cnt=0;
-    dec=0;
-    for(i=(strlen(hex)-1);i>=0;i--)
-    {
-        switch(hex[i])
-        {
-            case 'A':
-                dig=10; break;
-            case 'B':
-                dig=11; break;
-            case 'C':
-                dig=12; break;
-            case 'D':
-                dig=13; break;
-            case 'E':
-                dig=14; break;
-            case 'F':
-                dig=15; break;
-            default:
-                dig=hex[i]-0x30;  //0x30 = '0'
-                printf("%d  ",dig);
-        }
-        dec= dec+ (dig)*pow((double)16,(double)cnt);
-        cnt++;
+#include <ctype.h>
+
+char label[10],opcode[10],oprand[10];
+
+int tokeniser(char line[]){
+    char token[3][10],*toc;
+    int k = 0;    
+    toc = strtok(line," ");
+    while(toc){
+        strcpy(token[k++],toc);    
+        toc = strtok(NULL," ");
     }
- 
-    printf("DECIMAL value is: %d",dec);
+    if(k == 3){
+        strcpy(label,token[0]);
+        strcpy(opcode,token[1]);
+        strcpy(oprand,token[2]);
+    }
+    else if(k == 2){        
+        strcpy(opcode,token[0]);
+        strcpy(oprand,token[1]);
+    }
+    else{
+        strcpy(opcode,token[0]);
+        strcpy(oprand,"-");
+    }
+    return k;
+}
+
+int main(){
+    char op[] = "start  0000";
+    int res = tokeniser(op);
+    printf("%s\n",opcode);
+    printf("%s\n",oprand);
     return 0;
 }

@@ -12,15 +12,15 @@ int is_opcode(char op[]){
         if(!strcmp(op,mnemonic[i]))
                 return i;
 	return 0;
-}
+}   
 int find_length(char a[]){
     if (a[0] == 'c')
         return strlen(a) - 3;
     else
         return (strlen(a) - 3) / 2;
 }
-int find_sym(char s[]){
-    FILE *sym;
+int find_sym(char s[]){ //ALPHA,X
+    FILE *sym; 
     sym = fopen("symtab.txt","r");
     char label[10],addr[10];
     int i = 0,flag=0;
@@ -34,7 +34,7 @@ int find_sym(char s[]){
         if(!strcmp(s,label)){            
             if(flag){
                 char index[2];
-                sprintf(index,"%c",addr[0]);
+                sprintf(index,"%c",addr[0]); //5006
                 sprintf(index,"%x", atoi(index)^ 8);
                 addr[0] = index[0];
             }

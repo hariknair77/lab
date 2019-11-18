@@ -42,6 +42,7 @@ char *trim(char *string){
     final[len] ='\0';
     return final;
 }
+
 int tokeniser(char line_[]){
     char *line = trim(line_);
     char token[3][10],*toc;
@@ -93,7 +94,7 @@ int main()
     len = fopen("len.txt","w");
     fgets(line,MAX,f);
     lc++;
-     m = tokeniser(line); 
+    m = tokeniser(line); 
     if (strcmp(opcode, "START") == 0)
     {
         locctr = hex_to_dec(oprand);
@@ -137,8 +138,11 @@ int main()
             m = tokeniser(line);    
         	break;
         }
-        else
-            printf("Invalid Opcode on line : %d\n",lc);
+        else{
+            printf("Invalid Opcode on line : %d\t",lc);
+            printf("%s\n",opcode);
+        }
+            
         fgets(line,MAX,f);
         lc++;
         m = tokeniser(line);
